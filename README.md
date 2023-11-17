@@ -6,10 +6,15 @@
 <br>
 
 # ⚙️ Como rodar o projeto?
+Abra o Visual Studio e selecione a opção Clonar Repositório
 
+![Sem título](https://github.com/pedrogchagas/Projeto-Agendamento/assets/81334548/282dd76e-1b2f-4e09-b5a9-ef264ddaa7f5)
+
+Coloque o seguinte link: https://github.com/pedrogchagas/Projeto-Agendamento.git e clique em clonar
+
+![Captura de tela 2023-11-17 152756](https://github.com/pedrogchagas/Projeto-Agendamento/assets/81334548/a090deae-673a-4ff6-9124-4754a585747a)
 
 # 👷🏻 O Projeto
-
 
 # 🚀 Tecnologias
 Estas são as tecnologias utilizadas no desenvolvimento do projeto:
