@@ -5,7 +5,7 @@
 </div>
 <br>
 
-# Como rodar o projeto?
+# ⚙️ Como rodar o projeto?
 
 
 # 👷🏻 O Projeto
