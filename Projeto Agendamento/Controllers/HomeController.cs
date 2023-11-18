@@ -22,13 +22,14 @@ namespace Projeto_Agendamento.Controllers
         public IActionResult Index()
         {
             ViewData["UserID"] = _userManager.GetUserId(this.User);
+
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        //public IActionResult Privacy()
+        //{
+        //    return View();
+        //}
 
         public IActionResult Login()
         {
