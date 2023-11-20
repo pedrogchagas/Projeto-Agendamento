@@ -1,12 +1,37 @@
 <h1>Projeto Agendamento</h1>
 
 <div align="center">
-  <a href="#-tecnologias">Tecnologias</a> | <a href="#-o-projeto">O Projeto</a>
+  <a href="#-como-rodar-o-projeto">Como Rodar o Projeto</a> | <a href="#-o-projeto">O Projeto</a> | <a href="#-tecnologias">Tecnologias</a>
 </div>
 <br>
 
 # ⚙️ Como rodar o projeto?
-Abra o Visual Studio e selecione a opção Clonar Repositório
+
+- Certifique-se de que possui Visual Studio Community e SQL Server Management Studio instalados e configurando em sua máquina
+  
+- Abra o Visual Studio e selecione a opção Clonar um Repositório
+  
+- Insira o seguinte link em Local do repositório: https://github.com/pedrogchagas/Projeto-Agendamento.git
+  
+- Dentro do Projeto na pasta app.setting.json:
+  
+![image](https://github.com/pedrogchagas/Projeto-Agendamento/assets/81334548/12ccf0c5-28db-4cb0-af23-84ede7d05d92)
+
+- O "Server=(local)\\SQLEXPRESS" especifica o nome do servidor e da instância do SQL Server que está sendo usado no meu caso o servidor é local e a instância é SQLEXPRESS
+  
+- Verifique no seu SSMS o servidor e a instância e altere devidamente 
+  
+- Depois dessa mudança salve e dê um build no projeto
+  
+- Abra a opção Ferramentas -> Gerenciador de Pacotes do NuGet -> Console do Gerenciador de Pacotes
+  
+- Com o console aberto digite: Update-Database
+
+- Verifique se no seu SSMS se o banco foi criado com sucesso
+
+- Se tudo estiver conforme foi dito, compile o projeto
+
+- Aproveite!
 
 
 # 👷🏻 O Projeto
