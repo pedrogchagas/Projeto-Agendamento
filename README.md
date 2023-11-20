@@ -5,7 +5,7 @@
 </div>
 <br>
 
-# ⚙️ Como rodar o projeto?
+# ⚙️ Como rodar o projeto
 
 - Certifique-se de que possui Visual Studio Community e SQL Server Management Studio instalados e configurando em sua máquina
   
