@@ -141,6 +141,18 @@ namespace Projeto_Agendamento.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("Usuário criou uma conta nova com senha.");
 
+                    var accountType = Request.Form["accountType"];
+
+                    if (accountType == "Conta Cliente")
+                    {
+                        await _userManager.AddToRoleAsync(user, "Cliente");
+
+                    }
+                    else if (accountType == "Conta Estabelecimento")
+                    {
+                        await _userManager.AddToRoleAsync(user, "Estabelecimento");
+                    }
+
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

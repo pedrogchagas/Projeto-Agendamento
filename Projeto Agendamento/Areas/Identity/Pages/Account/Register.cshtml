@@ -10,6 +10,24 @@
     <h2>Criar uma conta nova.</h2>
     <hr />
     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+    <input type="hidden" id="accountType" name="accountType" value="Conta Cliente" />
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked onclick="updateAccountType('Conta Cliente')" />
+        <label class="form-check-label" for="flexRadioDefault1">
+            Conta Cliente
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" onclick="updateAccountType('Conta Estabelecimento')" />
+        <label class="form-check-label" for="flexRadioDefault2">
+            Conta Estabelecimento
+        </label>
+    </div>
+
+    <br />
+
     <div class="row">
         <div class="col-6">
             <div class="form-floating mb-3">
@@ -45,5 +63,12 @@
 </form>
 
 @section Scripts {
+    
+    <script>
+        function updateAccountType(value) {
+            document.getElementById('accountType').value = value;
+        }
+    </script>
+
     <partial name="_ValidationScriptsPartial" />
 }
