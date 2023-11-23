@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Projeto_Agendamento.Data;
 
@@ -11,9 +12,11 @@ using Projeto_Agendamento.Data;
 namespace Projeto_Agendamento.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20231122144350_Nome_Opcional")]
+    partial class Nome_Opcional
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -239,10 +242,12 @@ namespace Projeto_Agendamento.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_Estabelecimento"));
 
                     b.Property<string>("Bairro")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("CEP")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
@@ -252,6 +257,7 @@ namespace Projeto_Agendamento.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Complemento")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
@@ -267,6 +273,7 @@ namespace Projeto_Agendamento.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Logradouro")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -276,14 +283,17 @@ namespace Projeto_Agendamento.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Numero")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("RazaoSocial")
+                        .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("TelefoneContato")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 

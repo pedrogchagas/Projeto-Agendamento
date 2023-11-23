@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore;
 @using Projeto_Agendamento.Areas.Identity.Data;
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -7,15 +8,40 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
-            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-        </li>
-        <li class="nav-item">
-            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
-            </form>
-        </li>
+
+        var user = await UserManager.Users
+        .Include(u => u.Estabelecimento)
+        .FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
+
+        if (user != null)
+        {
+            var roles = await UserManager.GetRolesAsync(user);
+
+            if (!roles.Contains("Estabelecimento") && user.Estabelecimento == null)
+            {
+                var firstName = user.FirstName;
+                <li class="nav-item">
+                    <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @($"{firstName}")!</a>
+                </li>
+            }
+            else
+            {
+                var estabelecimento = user.Estabelecimento.NomeEstabelecimento;
+                <li class="nav-item">
+                    <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @($"{user.Estabelecimento.NomeEstabelecimento}")!</a>
+                </li>
+            }
+
+            <li class="nav-item">
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+                </form>
+            </li>
+        }
+
     }
+</ul>
+
 @*    else
     {
         <li class="nav-item">

@@ -5,7 +5,6 @@
     Layout = "~/Areas/Identity/Pages/_AuthLayout.cshtml";
 }
 
-
 <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
     <h2>Criar uma conta nova.</h2>
     <hr />
@@ -27,21 +26,32 @@
     </div>
 
     <br />
-
-    <div class="row">
-        <div class="col-6">
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FirstName" class="form-control" autocomplete="firstname" aria-required="true" placeholder="Nome" />
-                <label asp-for="Input.FirstName">Nome</label>
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+    <div id="contaClienteFields" style="display: block;">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.FirstName" class="form-control" autocomplete="firstname" placeholder="Nome" />
+                    <label asp-for="Input.FirstName">Nome</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.LastName" class="form-control" autocomplete="lastname" placeholder="Sobrenome" />
+                    <label asp-for="Input.LastName">Sobrenome</label>
+                </div>
             </div>
         </div>
-        <div class="col-6">
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LastName" class="form-control" autocomplete="lastname" aria-required="true" placeholder="Sobrenome" />
-                <label asp-for="Input.LastName">Sobrenome</label>
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
+    </div>
+    <div id="contaEstabelecimentoFields" style="display: none;">
+        <div class="form-floating mb-3">
+            <input asp-for="Input.NomeEstabelecimento" class="form-control" aria-required="true" placeholder="Nome do Estabelecimento" />
+            <label asp-for="Input.NomeEstabelecimento">Nome do Estabelecimento</label>
+            <span asp-validation-for="Input.NomeEstabelecimento" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.CNPJ" class="form-control" aria-required="true" placeholder="CNPJ" />
+            <label asp-for="Input.CNPJ">CNPJ</label>
+            <span asp-validation-for="Input.CNPJ" class="text-danger"></span>
         </div>
     </div>
     <div class="form-floating mb-3">
@@ -59,14 +69,24 @@
         <label asp-for="Input.ConfirmPassword">Confirmar senha</label>
         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
     </div>
+
     <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Criar</button>
 </form>
 
 @section Scripts {
-    
     <script>
         function updateAccountType(value) {
             document.getElementById('accountType').value = value;
+
+            // Show or hide additional fields based on the selected account type
+            var contaEstabelecimentoFields = document.getElementById('contaEstabelecimentoFields');
+            if (value === 'Conta Estabelecimento') {
+                contaEstabelecimentoFields.style.display = 'block';
+                contaClienteFields.style.display = 'none';
+            } else {
+                contaEstabelecimentoFields.style.display = 'none';
+                contaClienteFields.style.display = 'block';
+            }
         }
     </script>
 

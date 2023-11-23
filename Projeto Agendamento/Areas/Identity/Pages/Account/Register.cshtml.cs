@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -17,8 +18,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using Projeto_Agendamento.Areas.Identity.Data;
+using Projeto_Agendamento.Data;
 
 namespace Projeto_Agendamento.Areas.Identity.Pages.Account
 {
@@ -30,13 +33,15 @@ namespace Projeto_Agendamento.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly DBContext _dbContext;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, 
+            DBContext dbContext)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +49,7 @@ namespace Projeto_Agendamento.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _dbContext = dbContext;
         }
 
         /// <summary>
@@ -71,21 +77,33 @@ namespace Projeto_Agendamento.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required]
+            //Usuário
+
             [DataType(DataType.Text)]
             [Display(Name ="Nome")]
             public string FirstName { get; set; }
 
-            [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Sobrenome")]
             public string LastName { get; set; }
+
+            //Estabelecimento
+
+            [Required(ErrorMessage = "O campo CNPJ é obrigatório")]
+            [DisplayName("CNPJ")]
+            [StringLength(20, ErrorMessage = "20 caracteres")]
+            public string CNPJ { get; set; }
+
+            [Required(ErrorMessage = "O campo Nome do Estabelecimento é obrigatório")]
+            [DisplayName("Nome do Estabelecimento")]
+            [StringLength(150, ErrorMessage = "150 caracteres")]
+            public string NomeEstabelecimento { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "O campo Email é obrigatório")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -94,7 +112,7 @@ namespace Projeto_Agendamento.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "O campo Senha é obrigatório")]
             [StringLength(100, ErrorMessage = "A {0} deve ter pelo menos {2} e no máximo {1} caracteres de comprimento.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Senha")]
@@ -129,12 +147,13 @@ namespace Projeto_Agendamento.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
+                
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -151,6 +170,21 @@ namespace Projeto_Agendamento.Areas.Identity.Pages.Account
                     else if (accountType == "Conta Estabelecimento")
                     {
                         await _userManager.AddToRoleAsync(user, "Estabelecimento");
+
+                        var estabelecimento = new Estabelecimento
+                        {
+                            DataCadastro = DateTime.Now,
+                            DataAtualizacao = DateTime.Now,
+                            NomeEstabelecimento = Input.NomeEstabelecimento,
+                            CNPJ = Input.CNPJ,
+                        };
+
+                        estabelecimento.User = user;
+                        estabelecimento.UserId = user.Id;
+                        estabelecimento.Email = user.Email;
+
+                        _dbContext.Estabelecimentos.Add(estabelecimento);
+                        await _dbContext.SaveChangesAsync();
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);
