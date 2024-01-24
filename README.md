@@ -35,6 +35,7 @@
 
 
 # 👷🏻 O Projeto
+Um Projeto realizado durante as aulas de POO2 na faculdade, que não está 100% completo porém a ideia é ser um local onde estabelecimentos conseguem estabelecer serviços e clientes podem agendar esses serviços.
 
 # 🚀 Tecnologias
 Estas são as tecnologias utilizadas no desenvolvimento do projeto:
